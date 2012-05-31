@@ -1,0 +1,3 @@
+<registry>    
+    <records interface="cs.auth.facebook.controlpanel.IFacebookloginSettings" />
+</registry>

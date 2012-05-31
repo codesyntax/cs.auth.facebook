@@ -1,0 +1,30 @@
+<h1 tal:replace="structure context/aq_parent/manage_page_header">Header</h1>
+
+<h2 tal:define="form_title string:Add Optilux Facebook Users plugin"
+      tal:replace="structure context/aq_parent/manage_form_title">Form Title</h2>
+
+  <p class="form-help">
+  Install the CS Facebook Users plugin
+  </p>
+
+<form tal:attributes="action request/getURL" method="POST">
+  <table>
+    <tr>
+      <td class="form-label">Id</td>
+      <td><input type="text" name="id"></td>
+    </tr>
+    <tr>
+      <td class="form-label">Title</td>
+      <td><input type="text" name="Title"></td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <div class="form-element">
+          <input type="submit" name="form.button.Add" value="Add"/>
+        </div>
+      </td>
+    </tr>
+  </table>
+</form>
+
+<h1 tal:replace="structure context/aq_parent/manage_page_footer">Footer</h1>
