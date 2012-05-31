@@ -1,6 +1,6 @@
 <h1 tal:replace="structure context/aq_parent/manage_page_header">Header</h1>
 
-<h2 tal:define="form_title string:Add Optilux Facebook Users plugin"
+<h2 tal:define="form_title string:Add CS Facebook Users plugin"
       tal:replace="structure context/aq_parent/manage_form_title">Form Title</h2>
 
   <p class="form-help">
