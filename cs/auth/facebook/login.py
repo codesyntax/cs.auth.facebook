@@ -97,4 +97,4 @@ class FacebookLogin(BrowserView):
         session.save()
         
         IStatusMessage(self.request).add(_(u"Welcome. You are now logged in."), type="info")
-        self.request.response.redirect(self.context.absolute_url())
+        self.request.response.redirect(self.context.absolute_url() + '/logged_in')
