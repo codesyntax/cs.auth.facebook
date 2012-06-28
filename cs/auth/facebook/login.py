@@ -1,3 +1,5 @@
+from cs.auth.facebook.interfaces import ICSFacebookPlugin
+from Products.PluggableAuthService.interfaces.plugins import IExtractionPlugin
 from zope.component import getUtility
 from plone.registry.interfaces import IRegistry
 import json
@@ -78,6 +80,8 @@ class FacebookLogin(BrowserView):
         
         userId = profile.get('id')
         name = profile.get('name')
+        email = profile.get('email', '')
+        location = profile.get('location', {}).get('name', '')
         
         if not userId or not name:
             IStatusMessage(self.request).add(_(u"Insufficient information in Facebook profile"), type="error")
@@ -93,8 +97,30 @@ class FacebookLogin(BrowserView):
         session[SessionKeys.userId]      = userId
         session[SessionKeys.userName]    = userId
         session[SessionKeys.fullname]    = name
-        
+        session[SessionKeys.email]       = email
+        session[SessionKeys.location]       = location        
         session.save()
+
+        # Add user data into our plugin storage:
+        acl = self.context.acl_users
+        acl_plugins = acl.plugins
+        ids = acl_plugins.listPluginIds(IExtractionPlugin)
+        for id in ids:
+            plugin = getattr(acl_plugins, id)
+            if ICSFacebookPlugin.providedBy(plugin):
+                user_data = plugin._storage.get(session[SessionKeys.userId], {})
+                user_data['fullname'] = session[SessionKeys.fullname]
+                user_data['username'] = session[SessionKeys.userName]
+                user_data['email'] = session[SessionKeys.email]
+                user_data['location'] = session[SessionKeys.location]
+                plugin._storage[session[SessionKeys.userId]] = user_data
+
         
         IStatusMessage(self.request).add(_(u"Welcome. You are now logged in."), type="info")
-        self.request.response.redirect(self.context.absolute_url() + '/logged_in')
+        
+        return_args = ''
+        if self.request.get('came_from', None) is not None:
+            return_args = {'came_from': self.request.get('came_from')}
+            return_args = '?' + urllib.urlencode(return_args)
+
+        self.request.response.redirect(self.context.absolute_url() + '/logged_in' + return_args)

@@ -1,3 +1,4 @@
+from BTrees.OOBTree import OOBTree
 import logging
 
 from zope.interface import implements
@@ -15,9 +16,12 @@ from Products.PluggableAuthService.interfaces.plugins import (
         ICredentialsResetPlugin,
         IPropertiesPlugin,
         IRolesPlugin,
-        IUserEnumerationPlugin
+        IUserEnumerationPlugin,
+        IUserFactoryPlugin
     )
 
+from cs.auth.facebook.user import FacebookUser
+from cs.auth.facebook.interfaces import IFacebookUser, ICSFacebookPlugin
 logger = logging.getLogger('cs.auth.facebook')
 
 class SessionKeys:
@@ -28,6 +32,8 @@ class SessionKeys:
     userName    =   "cs.auth.facebook.userName"
     fullname    =   "cs.auth.facebook.fullname"
     accessToken =   "cs.auth.facebook.accessToken"
+    email       =   "cs.auth.facebook.email"
+    location    =   "cs.auth.facebook.location"
 
 class AddForm(BrowserView):
     """Add form the PAS plugin
@@ -55,22 +61,24 @@ class CSFacebookUsers(BasePlugin):
     
     # List PAS interfaces we implement here
     implements(
+            ICSFacebookPlugin,
             IExtractionPlugin,
             ICredentialsResetPlugin,
             IAuthenticationPlugin,
             IPropertiesPlugin,
             IRolesPlugin,
             IUserEnumerationPlugin,
+            IUserFactoryPlugin
         )
     
     def __init__(self, id, title=None):
         self.__name__ = self.id = id
         self.title = title
+        self._storage = OOBTree()
+
     #
     # IExtractionPlugin
     # 
-
-    
     def extractCredentials(self, request):
         """This method is called on every request to extract credentials.
         In our case, that means looking for the values we store in the
@@ -98,6 +106,7 @@ class CSFacebookUsers(BasePlugin):
                     'src': self.getId(),
                     'userid': session[SessionKeys.userId],
                     'username': session[SessionKeys.userName],
+
                 }
         
         return None
@@ -186,14 +195,26 @@ class CSFacebookUsers(BasePlugin):
         session = ISession(request, None)
         if session is None:
             return {}
-        
+              
         # Is this an cs.auth.facebook Facebook user?
-        if session.get(SessionKeys.userId, None) != user.getId():
-            return {}
-        
-        return {
+        if session.get(SessionKeys.userId, None) == user.getId():
+            return {
                 'fullname': session.get(SessionKeys.fullname),
+                'email': session.get(SessionKeys.email),
+                'location': session.get(SessionKeys.location)
             }
+
+        else:
+            # If this is a Twitter User, it implements ITwitterUser
+            if not IFacebookUser.providedBy(user):
+                return {}
+
+            else:
+                user_data = self._storage.get(user.getId(), None)
+                if user_data is None:
+                    return {}
+
+                return user_data
     
     #
     # IRolesPlugin
@@ -294,8 +315,26 @@ class CSFacebookUsers(BasePlugin):
         if exact_match and id == session.get(SessionKeys.userId, None):
             return ({
                 'id': session[SessionKeys.userId],
-                'login': session[SessionKeys.userName],
+                'login': session[SessionKeys.userId],
                 'pluginid': self.getId(),
             },)
-        
+    
+        elif id != session.get(SessionKeys.userId, None):
+            user_data = self._storage.get(id, None)
+            if user_data is not None:
+                return ({
+                         'id': id,
+                         'login': id,
+                         'pluginid': self.getId(),
+                     },)
+
         return ()
+
+    # IUserFactoryPlugin interface
+    def createUser(self, user_id, name):
+        # Create a TwitterUser just if this is a Twitter User id 
+        user_data = self._storage.get(user_id, None)
+        if user_data is not None:
+            return FacebookUser(user_id, name)
+        
+        return None
