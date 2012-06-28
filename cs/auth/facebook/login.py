@@ -98,7 +98,7 @@ class FacebookLogin(BrowserView):
         session[SessionKeys.userName]    = userId
         session[SessionKeys.fullname]    = name
         session[SessionKeys.email]       = email
-        session[SessionKeys.location]       = location        
+        session[SessionKeys.location]    = location        
         session.save()
 
         # Add user data into our plugin storage:
