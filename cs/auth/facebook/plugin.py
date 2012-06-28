@@ -332,7 +332,7 @@ class CSFacebookUsers(BasePlugin):
 
     # IUserFactoryPlugin interface
     def createUser(self, user_id, name):
-        # Create a FacebookUser just if this is a Twitter User id 
+        # Create a FacebookUser just if this is a Facebook User id 
         user_data = self._storage.get(user_id, None)
         if user_data is not None:
             return FacebookUser(user_id, name)
