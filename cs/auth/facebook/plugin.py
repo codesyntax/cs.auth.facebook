@@ -205,7 +205,7 @@ class CSFacebookUsers(BasePlugin):
             }
 
         else:
-            # If this is a Twitter User, it implements ITwitterUser
+            # If this is a Facebook User, it implements IFacebookUser
             if not IFacebookUser.providedBy(user):
                 return {}
 
@@ -332,7 +332,7 @@ class CSFacebookUsers(BasePlugin):
 
     # IUserFactoryPlugin interface
     def createUser(self, user_id, name):
-        # Create a TwitterUser just if this is a Twitter User id 
+        # Create a FacebookUser just if this is a Twitter User id 
         user_data = self._storage.get(user_id, None)
         if user_data is not None:
             return FacebookUser(user_id, name)
