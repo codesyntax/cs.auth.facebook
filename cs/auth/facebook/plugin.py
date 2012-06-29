@@ -34,6 +34,7 @@ class SessionKeys:
     accessToken =   "cs.auth.facebook.accessToken"
     email       =   "cs.auth.facebook.email"
     location    =   "cs.auth.facebook.location"
+    profile_image = "cs.auth.facebook.profile_image"
 
 class AddForm(BrowserView):
     """Add form the PAS plugin
