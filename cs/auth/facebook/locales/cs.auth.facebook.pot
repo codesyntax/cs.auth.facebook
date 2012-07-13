@@ -1,0 +1,52 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2012-07-13 11:33+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: DOMAIN\n"
+
+#: ./controlpanel.py:10
+msgid "App ID/API Key"
+msgstr ""
+
+#: ./controlpanel.py:12
+msgid "App Secret"
+msgstr ""
+
+#: ./login.py:64
+msgid "Facebook authentication denied"
+msgstr ""
+
+#: ./profiles/default/controlpanel.xml
+msgid "Facebooklogin Settings"
+msgstr ""
+
+#: ./controlpanel.py:20
+msgid "Facebooklogin settings"
+msgstr ""
+
+#: ./login.py:112
+msgid "Insufficient information in Facebook profile"
+msgstr ""
+
+#: ./controlpanel.py:11
+msgid "The App ID/API Key you got when creating the app at https://developers.facebook.com/apps"
+msgstr ""
+
+#: ./controlpanel.py:13
+msgid "The App Secret Key you got when creating the app at https://developers.facebook.com/apps"
+msgstr ""
+
+#: ./login.py:142
+msgid "Welcome. You are now logged in."
+msgstr ""
+
