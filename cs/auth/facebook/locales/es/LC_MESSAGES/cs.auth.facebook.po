@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cs.auth.facebook\n"
-"POT-Creation-Date: 2012-07-13 11:33+0000\n"
-"PO-Revision-Date: 2012-07-13 13:35+0100\n"
+"POT-Creation-Date: 2012-07-13 11:47+0000\n"
+"PO-Revision-Date: 2012-07-13 13:48+0100\n"
 "Last-Translator: Mikel Larreategi <mlarreategi@codesyntax.com>\n"
 "Language-Team: es <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -38,6 +38,10 @@ msgstr "Configuración del login con Facebook"
 #: ./login.py:112
 msgid "Insufficient information in Facebook profile"
 msgstr "No hay suficiente información en el perfil de Facebook"
+
+#: ./profiles/default/actions.xml
+msgid "Log in with Facebook"
+msgstr "Entrar vía Facebook"
 
 #: ./controlpanel.py:11
 msgid "The App ID/API Key you got when creating the app at https://developers.facebook.com/apps"

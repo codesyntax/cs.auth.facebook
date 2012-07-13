@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2012-07-13 11:33+0000\n"
+"POT-Creation-Date: 2012-07-13 11:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,6 +36,10 @@ msgstr ""
 
 #: ./login.py:112
 msgid "Insufficient information in Facebook profile"
+msgstr ""
+
+#: ./profiles/default/actions.xml
+msgid "Log in with Facebook"
 msgstr ""
 
 #: ./controlpanel.py:11
