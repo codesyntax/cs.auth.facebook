@@ -4,7 +4,8 @@ Changelog
 1.0b2 (UNRELEASED)
 -------------------
 
-- (no changes yet)
+- Change user action name not to clash with Plone's logi
+  [erral]
 
 1.0b1 (2012-07-13)
 -------------------
