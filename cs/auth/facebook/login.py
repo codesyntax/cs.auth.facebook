@@ -1,20 +1,21 @@
-from cs.auth.facebook.interfaces import ICSFacebookPlugin
-from Products.PluggableAuthService.interfaces.plugins import IExtractionPlugin
-from zope.component import getUtility
-from plone.registry.interfaces import IRegistry
 import json
 import urlparse
 import urllib
 import hashlib
 
+from zope.component import getUtility
 from zope.publisher.browser import BrowserView
 
-from collective.beaker.interfaces import ISession
-
+from Products.PluggableAuthService.interfaces.plugins import IExtractionPlugin
 from Products.statusmessages.interfaces import IStatusMessage
+
+from plone.registry.interfaces import IRegistry
+from collective.beaker.interfaces import ISession
 
 from cs.auth.facebook import FBMessageFactory as _
 from cs.auth.facebook.plugin import SessionKeys
+from cs.auth.facebook.interfaces import ICSFacebookPlugin
+
 
 FACEBOOK_AUTH_URL         = "https://graph.facebook.com/oauth/authorize"
 FACEBOOK_ACCESS_TOKEN_URL = "https://graph.facebook.com/oauth/access_token"

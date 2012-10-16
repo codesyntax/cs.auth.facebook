@@ -1,33 +1,29 @@
-from BTrees.OOBTree import OOBTree
-import logging
-
 from zope.interface import implements
 from zope.publisher.browser import BrowserView
-
-from zope.globalrequest import getRequest
+from BTrees.OOBTree import OOBTree
 
 from collective.beaker.interfaces import ISession
 
 from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
-
 from Products.PluggableAuthService.interfaces.plugins import (
         IExtractionPlugin,
         IAuthenticationPlugin,
         ICredentialsResetPlugin,
         IPropertiesPlugin,
-        IRolesPlugin,
         IUserEnumerationPlugin,
         IUserFactoryPlugin
     )
 
 from cs.auth.facebook.user import FacebookUser
 from cs.auth.facebook.interfaces import IFacebookUser, ICSFacebookPlugin
+
+import logging
 logger = logging.getLogger('cs.auth.facebook')
+
 
 class SessionKeys:
     """Constants used to look up session keys
     """
-    
     userId      =   "cs.auth.facebook.userId"
     userName    =   "cs.auth.facebook.userName"
     fullname    =   "cs.auth.facebook.fullname"
@@ -35,6 +31,7 @@ class SessionKeys:
     email       =   "cs.auth.facebook.email"
     location    =   "cs.auth.facebook.location"
     profile_image = "cs.auth.facebook.profile_image"
+
 
 class AddForm(BrowserView):
     """Add form the PAS plugin
@@ -51,6 +48,7 @@ class AddForm(BrowserView):
             
             self.request.response.redirect(self.context.absolute_url() +
                     '/manage_workspace?manage_tabs_message=Plugin+added.')
+
 
 class CSFacebookUsers(BasePlugin):
     """PAS plugin for authentication against facebook.
