@@ -4,6 +4,9 @@ Changelog
 1.0b2 (UNRELEASED)
 -------------------
 
+- Implement user search in storage
+  [erral]
+
 - Get properties from self data storage instead of relying on Session
   [erral]
 

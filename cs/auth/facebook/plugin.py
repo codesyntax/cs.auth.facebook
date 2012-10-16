@@ -260,28 +260,27 @@ class CSFacebookUsers(BasePlugin):
           scaling issues for some implementations.
         """
         
-        request = getRequest()
-        session = ISession(request, None)
-        if session is None:
+        if exact_match:
+            if id is not None:
+                user_data = self._storage.get(id, None)
+                if user_data is not None:
+                    return ({
+                             'id': id,
+                             'login': user_data.get('username'),
+                             'pluginid': self.getId(),
+                         },)
             return ()
-        
-        if exact_match and id == session.get(SessionKeys.userId, None):
-            return ({
-                'id': session[SessionKeys.userId],
-                'login': session[SessionKeys.userId],
-                'pluginid': self.getId(),
-            },)
-    
-        elif id != session.get(SessionKeys.userId, None):
-            user_data = self._storage.get(id, None)
-            if user_data is not None:
-                return ({
-                         'id': id,
-                         'login': id,
-                         'pluginid': self.getId(),
-                     },)
 
-        return ()
+        else:
+            # XXX: return all users, without any matching
+            data = []
+            for id, user_data in self._storage.items():
+                data.append({
+                         'id': id,
+                         'login': user_data.get('username'),
+                         'pluginid': self.getId(),
+                    })
+            return data
 
     # IUserFactoryPlugin interface
     def createUser(self, user_id, name):
