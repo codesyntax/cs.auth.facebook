@@ -188,34 +188,17 @@ class CSFacebookUsers(BasePlugin):
         o May assign properties based on values in the REQUEST object, if
           present
         """
-        
-        if request is None:
-            request = getRequest()
-        
-        session = ISession(request, None)
-        if session is None:
+        # If this is a Facebook User, it implements IFacebookUser
+        if not IFacebookUser.providedBy(user):
             return {}
-              
-        # Is this an cs.auth.facebook Facebook user?
-        if session.get(SessionKeys.userId, None) == user.getId():
-            return {
-                'fullname': session.get(SessionKeys.fullname),
-                'email': session.get(SessionKeys.email),
-                'location': session.get(SessionKeys.location)
-            }
 
         else:
-            # If this is a Facebook User, it implements IFacebookUser
-            if not IFacebookUser.providedBy(user):
+            user_data = self._storage.get(user.getId(), None)
+            if user_data is None:
                 return {}
 
-            else:
-                user_data = self._storage.get(user.getId(), None)
-                if user_data is None:
-                    return {}
+            return user_data
 
-                return user_data
-    
    
     #
     # IUserEnumerationPlugin
