@@ -4,6 +4,9 @@ Changelog
 1.0b2 (UNRELEASED)
 -------------------
 
+- FaceBook users are now PloneUsers
+  [erral]
+
 - Implement user search in storage
   [erral]
 

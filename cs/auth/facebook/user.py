@@ -1,7 +1,7 @@
 from zope.interface import implements
 from interfaces import IFacebookUser
-from Products.PluggableAuthService.PropertiedUser import PropertiedUser
+from Products.PlonePAS.plugins.ufactory import PloneUser
 
-class FacebookUser(PropertiedUser):
+class FacebookUser(PloneUser):
     implements(IFacebookUser)
 
