@@ -67,7 +67,6 @@ class CSFacebookUsers(BasePlugin):
             ICredentialsResetPlugin,
             IAuthenticationPlugin,
             IPropertiesPlugin,
-            IRolesPlugin,
             IUserEnumerationPlugin,
             IUserFactoryPlugin
         )
@@ -217,37 +216,7 @@ class CSFacebookUsers(BasePlugin):
 
                 return user_data
     
-    #
-    # IRolesPlugin
-    # 
-    
-    def getRolesForPrincipal(self, principal, request=None):
-        """Return a list of roles for the given principal (a user or group).
-        
-        Here, we simply grant the Member role to everyone we have
-        authenticated. We could of course have invented a new role as well,
-        in which case we'd want to register it in rolemap.xml.
-        
-        principal -> ( role_1, ... role_N )
-        
-        o Return a sequence of role names which the principal has.
-        
-        o May assign roles based on values in the REQUEST object, if present.
-        """
-        
-        if request is None:
-            request = getRequest()
-        
-        session = ISession(request, None)
-        if session is None:
-            return ()
-        
-        # Is this an cs.auth.facebook Facebook user?
-        if session.get(SessionKeys.userId, None) != principal.getId():
-            return ()
-        
-        return ('Member',)
-    
+   
     #
     # IUserEnumerationPlugin
     # 
