@@ -9,6 +9,7 @@ from Products.PluggableAuthService.interfaces.plugins import (
         IExtractionPlugin,
         IAuthenticationPlugin,
         ICredentialsResetPlugin,
+        IRolesPlugin,        
         IPropertiesPlugin,
         IUserEnumerationPlugin,
         IUserFactoryPlugin
@@ -63,6 +64,7 @@ class CSFacebookUsers(BasePlugin):
             ICSFacebookPlugin,
             IExtractionPlugin,
             ICredentialsResetPlugin,
+            IRolesPlugin,            
             IAuthenticationPlugin,
             IPropertiesPlugin,
             IUserEnumerationPlugin,
@@ -108,6 +110,22 @@ class CSFacebookUsers(BasePlugin):
                 }
         
         return None
+
+    #
+    # IRolesPlugin
+    #
+    def getRolesForPrincipal(selfm, principal, request=None):
+        """ Return a list of roles for the given principal (user or object)
+
+        We simply grant the Member role to every user authenticated
+        using this plugin 
+        """
+        if IFacebookUser.providedBy(principal):
+            return ('Member', )
+
+        return ()
+
+
     
     #
     # IAuthenticationPlugin

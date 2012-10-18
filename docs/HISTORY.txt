@@ -1,6 +1,13 @@
 Changelog
 =========
 
+1.0b3 (2012-10-18)
+--------------------
+
+- Implement IRolePlugin again to grant Member role
+  [erral]
+
+
 1.0b2 (2012-10-16)
 -------------------
 
