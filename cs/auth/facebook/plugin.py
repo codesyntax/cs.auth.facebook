@@ -1,9 +1,12 @@
+from BTrees.OOBTree import OOBTree
+from cs.auth.facebook.user import FacebookUser
+from cs.auth.facebook.interfaces import IFacebookUser
+from cs.auth.facebook.interfaces import ICSFacebookPlugin
+from collective.beaker.interfaces import ISession
+from copy import copy
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.interface import implements
 from zope.publisher.browser import BrowserView
-from BTrees.OOBTree import OOBTree
-
-from collective.beaker.interfaces import ISession
 
 from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
 from Products.PluggableAuthService.interfaces.plugins import (
@@ -15,8 +18,6 @@ from Products.PluggableAuthService.interfaces.plugins import (
         IUserFactoryPlugin
     )
 
-from cs.auth.facebook.user import FacebookUser
-from cs.auth.facebook.interfaces import IFacebookUser, ICSFacebookPlugin
 
 import logging
 logger = logging.getLogger('cs.auth.facebook')
@@ -201,11 +202,9 @@ class CSFacebookUsers(BasePlugin):
 
             return user_data
 
-
     #
     # IUserEnumerationPlugin
     #
-
     def enumerateUsers(self
                       , id=None
                       , login=None
@@ -216,73 +215,52 @@ class CSFacebookUsers(BasePlugin):
                       ):
         """This function is used to search for users.
 
-        We don't implement a search of all of Facebook (!), but it's important
-        that we allow Plone to search for the currently logged in user and get
-        a result back, so we effectively implement a search against only one
-        value.
+        We don't implement a search of all of Facebook (!)
 
-         -> ( user_info_1, ... user_info_N )
-
-        o Return mappings for users matching the given criteria.
-
-        o 'id' or 'login', in combination with 'exact_match' true, will
-          return at most one mapping per supplied ID ('id' and 'login'
-          may be sequences).
-
-        o If 'exact_match' is False, then 'id' and / or login may be
-          treated by the plugin as "contains" searches (more complicated
-          searches may be supported by some plugins using other keyword
-          arguments).
-
-        o If 'sort_by' is passed, the results will be sorted accordingly.
-          known valid values are 'id' and 'login' (some plugins may support
-          others).
-
-        o If 'max_results' is specified, it must be a positive integer,
-          limiting the number of returned mappings.  If unspecified, the
-          plugin should return mappings for all users satisfying the criteria.
-
-        o Minimal keys in the returned mappings:
-
-          'id' -- (required) the user ID, which may be different than
-                  the login name
-
-          'login' -- (required) the login name
-
-          'pluginid' -- (required) the plugin ID (as returned by getId())
-
-          'editurl' -- (optional) the URL to a page for updating the
-                       mapping's user
-
-        o Plugin *must* ignore unknown criteria.
-
-        o Plugin may raise ValueError for invalid criteria.
-
-        o Insufficiently-specified criteria may have catastrophic
-          scaling issues for some implementations.
         """
 
-        if exact_match:
-            if id is not None:
-                user_data = self._storage.get(id, None)
-                if user_data is not None:
-                    return ({
-                             'id': id,
-                             'login': user_data.get('username'),
-                             'pluginid': self.getId(),
-                         },)
-            return ()
+        def match(data, criterias, exact_match=False):
+            """Search for users with the given criterias"""
+            for propertyname, searchstring in criterias.items():
+                stored_value = data.get(propertyname, None)
+                if stored_value is None:
+                    return False
 
-        else:
-            # XXX: return all users, without any matching
-            data = []
-            for id, user_data in self._storage.items():
-                data.append({
-                         'id': id,
-                         'login': user_data.get('username'),
-                         'pluginid': self.getId(),
-                    })
-            return data
+                if not isinstance(stored_value, unicode):
+                    stored_value = stored_value.decode('utf-8')
+                if not isinstance(searchstring, unicode):
+                    searchstring = searchstring.decode('utf-8')
+
+                if exact_match and searchstring != stored_value:
+                    return False
+                else:
+                    if searchstring.lower() not in stored_value.lower():
+                        return False
+            return True
+
+        if exact_match:
+            if id is not None or login is not None:
+                # No diffrents between id and login
+                name = id or login
+                data = self._storage.get(name, None)
+                if data is not None:
+                    return ({'id': name,
+                           'login': data.get('username'),
+                           'title': data.get('username'),
+                           'pluginid': self.getId()}, )
+                else:
+                    return ()
+
+        criterias = copy(kw)
+        result = [(userid, data) for (userid, data) in self._storage.items()
+                     if match(data, criterias, exact_match)]
+
+        return tuple(
+            [{'id': user_id,
+              'login': data.get('username'),
+              'title': data.get('username'),
+              'pluginid': self.getId()
+            } for (user_id, data) in result])
 
     # IUserFactoryPlugin interface
     def createUser(self, user_id, name):
