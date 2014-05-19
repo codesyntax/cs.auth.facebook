@@ -234,9 +234,12 @@ class CSFacebookUsers(BasePlugin):
                 if exact_match and searchstring != stored_value:
                     return False
                 else:
-                    if searchstring.lower() not in stored_value.lower():
+                    if not searchstring:
                         return False
-            return True
+
+                    if searchstring.lower() in stored_value.lower():
+                        return True
+            return False
 
         if exact_match:
             if id is not None or login is not None:
@@ -250,7 +253,6 @@ class CSFacebookUsers(BasePlugin):
                            'pluginid': self.getId()}, )
                 else:
                     return ()
-
         criterias = copy(kw)
         result = [(userid, data) for (userid, data) in self._storage.items()
                      if match(data, criterias, exact_match)]
