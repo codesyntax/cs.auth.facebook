@@ -32,7 +32,7 @@ This is needed because we are using collective.beaker to handle Facebook login
 session information.
 
 Install the product in the Plone Control Panel. This will create a "Login with
-Twitter" action into the personal tools toolbar in Plone.
+Facebook" action into the personal tools toolbar in Plone.
 
 Create a new Facebook app at https://developers.facebook.com/app and fill in the
 required data in the plugin's control panel form.
