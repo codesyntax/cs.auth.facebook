@@ -25,14 +25,7 @@ setup(name='cs.auth.facebook',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          'zope.interface',
-          'zope.publisher',
-          'zope.i18nmessageid',
-          'five.globalrequest',
           'collective.beaker',
-          'Products.PluggableAuthService',
-          'Products.PlonePAS',
-          'Products.statusmessages',
       ],
       entry_points="""
       # -*- Entry points: -*-

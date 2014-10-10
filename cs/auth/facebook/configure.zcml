@@ -7,7 +7,8 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="cs.auth.facebook">
 
-    <includeDependencies package="." />
+    <include package="collective.beaker" />
+    <include package="five.globalrequest" />
     <i18n:registerTranslations directory="locales" />
 
     <genericsetup:registerProfile
