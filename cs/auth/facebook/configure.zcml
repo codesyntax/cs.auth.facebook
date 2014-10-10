@@ -7,12 +7,8 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="cs.auth.facebook">
 
+    <includeDependencies package="." />
     <i18n:registerTranslations directory="locales" />
-
-    <!-- Required packages -->
-    <include package="collective.beaker" />
-    <include package="five.globalrequest" />
-    
 
     <genericsetup:registerProfile
         name="default"
@@ -20,7 +16,7 @@
         directory="profiles/default"
         description="Allows users to log in with Facebook"
         provides="Products.GenericSetup.interfaces.EXTENSION"
-        />     
+        />
 
     <genericsetup:importStep
         name="cs.auth.facebook-various"
@@ -29,25 +25,25 @@
         handler="cs.auth.facebook.setuphandlers.importVarious">
         <depends name="rolemap"/>
     </genericsetup:importStep>
-    
-    <five:registerClass 
-        class=".plugin.CSFacebookUsers" 
-        meta_type="CSFacebookUsers" 
-        permission="zope2.ViewManagementScreens" 
+
+    <five:registerClass
+        class=".plugin.CSFacebookUsers"
+        meta_type="CSFacebookUsers"
+        permission="zope2.ViewManagementScreens"
         addview="cs-add-facebook-users-plugin"
-        /> 
-    
+        />
+
     <pas:registerMultiPlugin
         meta_type="CSFacebookUsers"
         />
-    
+
     <browser:page
         name="cs-add-facebook-users-plugin"
         for="zope.browser.interfaces.IAdding"
         class=".plugin.AddForm"
         permission="zope2.ViewManagementScreens"
         />
-    
+
     <browser:page
         name="facebook-login"
         for="Products.CMFCore.interfaces.ISiteRoot"
@@ -61,8 +57,8 @@
         permission="cmf.ManagePortal"
         class=".controlpanel.FacebookloginControlPanelView"
     />
-      
+
   <!-- -*- extra stuff goes here -*- -->
-  
+
 
 </configure>
