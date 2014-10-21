@@ -25,7 +25,6 @@ setup(name='cs.auth.facebook',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          'collective.beaker',
       ],
       entry_points="""
       # -*- Entry points: -*-

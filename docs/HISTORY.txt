@@ -2,12 +2,17 @@ Changelog
 =========
 
 1.1 (unreleased)
----------------------
+----------------
 
+- Remove dependency on collective.beaker. Optional Beaker support is available
+  with https://pypi.python.org/pypi/Products.BeakerSessionDataManager
+  since we use Zope's session_data_manager
+  [petschki]
+   
 1.0.3 (2014-10-21)
--------------------
+------------------
 
-- add german translation
+- Add german translation
   [petschki]
 
 - Encoding unicode user credentials.
@@ -22,13 +27,13 @@ Changelog
   [erral]
 
 1.0.1 (2014-10-10)
--------------------
+------------------
 
 - Fix docs
   [erral]
 
 1.0 (2014-10-10)
--------------------
+----------------
 
 - Fix user search
   [erral]
@@ -38,7 +43,7 @@ Changelog
 
 
 1.0b2 (2012-10-16)
--------------------
+------------------
 
 - FaceBook users are now PloneUsers
   [erral]
@@ -54,7 +59,7 @@ Changelog
 
 
 1.0b1 (2012-07-13)
--------------------
+------------------
 
 - Initial release
   [erral]
