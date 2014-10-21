@@ -1,8 +1,16 @@
 Changelog
 =========
 
-1.1 (UNRELEASED)
------------------
+1.1 (unreleased)
+----------------
+
+- add german translation
+  [petschki]
+
+- Encoding unicode user credentials.
+  see http://goo.gl/63Kyuo for more info
+  [petschki]
+
 
 1.0.2 (2014-10-10)
 ------------------
