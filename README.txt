@@ -13,7 +13,7 @@ A PAS plugin to login into a Plone Site using Facebook.
 Installation and getting started
 -----------------------------------
 
-Add `cs.auth.twitter` to your buildout.cfg's eggs list. It will install all required dependencies.
+Add `cs.auth.facebook` to your buildout.cfg's eggs list. It will install all required dependencies.
 
 You have to add a configuration similar to this to the `[instance]`
 section of your buildout file::
