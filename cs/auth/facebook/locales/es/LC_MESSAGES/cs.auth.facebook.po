@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: cs.auth.facebook\n"
-"POT-Creation-Date: 2012-07-13 11:47+0000\n"
+"POT-Creation-Date: 2014-10-21 06:40+0000\n"
 "PO-Revision-Date: 2012-07-13 13:48+0100\n"
 "Last-Translator: Mikel Larreategi <mlarreategi@codesyntax.com>\n"
 "Language-Team: es <es@li.org>\n"
@@ -23,19 +23,16 @@ msgstr "App ID/API Key"
 msgid "App Secret"
 msgstr "App Secreto"
 
-#: ./login.py:64
+#: ./login.py:65
 msgid "Facebook authentication denied"
 msgstr "No se ha podido realizar la autenticación con Facebook"
 
+#: ./controlpanel.py:20
 #: ./profiles/default/controlpanel.xml
 msgid "Facebooklogin Settings"
 msgstr "Configuración del login con Facebook"
 
-#: ./controlpanel.py:20
-msgid "Facebooklogin settings"
-msgstr "Configuración del login con Facebook"
-
-#: ./login.py:112
+#: ./login.py:113
 msgid "Insufficient information in Facebook profile"
 msgstr "No hay suficiente información en el perfil de Facebook"
 
@@ -51,7 +48,7 @@ msgstr "El 'App ID/API Key' de su aplicación Facebook. Cree una aplicación en 
 msgid "The App Secret Key you got when creating the app at https://developers.facebook.com/apps"
 msgstr "El 'App Secret Key' de su aplicación Facebook. Cree una aplicación en https://developers.facebook.com/apps"
 
-#: ./login.py:142
+#: ./login.py:143
 msgid "Welcome. You are now logged in."
 msgstr "Bienvenido. Ha accedido al sistema correctamente."
 
