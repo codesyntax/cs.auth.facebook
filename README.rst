@@ -13,13 +13,21 @@ A PAS plugin to login into a Plone Site using Facebook.
 Installation and getting started
 --------------------------------
 
-Add `cs.auth.facebook` to your buildout.cfg's eggs list::
+Add `cs.auth.facebook` to your ``buildout.cfg`` eggs list::
 
     [buildout]
     ...
     eggs =
-        collective.cover
+        cs.auth.facebook
         
+Or as an required install dependency of your own addon ``setup.py``::
+
+    install_requires=[
+        ...
+        'cs.auth.facebook',
+    ],
+
+    
         
 It will install all required dependencies.
 
