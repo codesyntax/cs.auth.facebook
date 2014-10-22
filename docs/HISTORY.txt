@@ -1,14 +1,14 @@
 Changelog
 =========
 
-1.1 (unreleased)
+1.1b1 (2014-10-22)
 ----------------
 
 - Remove dependency on collective.beaker. Optional Beaker support is available
   with https://pypi.python.org/pypi/Products.BeakerSessionDataManager
   since we use Zope's session_data_manager
   [petschki]
-   
+
 1.0.3 (2014-10-21)
 ------------------
 
