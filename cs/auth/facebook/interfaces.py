@@ -17,18 +17,3 @@ class ICSFacebookPlugin(Interface):
     """
     Marker interface
     """
-    
-
-class IFBLUtils(Interface):
-    """
-    Marker for utility view
-    """
-    
-    def enabled_on_login_form(self):
-        """ check if enabled """
-        pass
-    
-    def fb_app_id(self):
-        """ return app_id for JavaScript SDK """
-        pass
-    
