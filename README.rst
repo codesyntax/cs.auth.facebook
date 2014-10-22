@@ -22,7 +22,7 @@ Installation and getting started
     eggs =
         cs.auth.facebook
         
-   Or as an required install dependency of your own addon ``setup.py``::
+   Or as a required install dependency of your own addon ``setup.py``::
 
     install_requires=[
         ...
