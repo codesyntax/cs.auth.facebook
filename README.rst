@@ -35,7 +35,7 @@ Installation and getting started
 3. Install the product in the Plone Control Panel and provide the app_id 
    and app_secret in the configuration panel.
 
-   Now you see the "Facebook Login" button viewlet. To customize the place of this
+   Now you see the "Facebook Login" button viewlet. To customize the placement of this
    viewlet please check out the `Plone Viewlet Documentation <http://goo.gl/RyUORn>`_ 
 
 4. Alternatively you can enable an action in portal_actions with the following configuration
