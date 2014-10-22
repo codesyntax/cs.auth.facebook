@@ -2,11 +2,12 @@ from BTrees.OOBTree import OOBTree
 from cs.auth.facebook.user import FacebookUser
 from cs.auth.facebook.interfaces import IFacebookUser
 from cs.auth.facebook.interfaces import ICSFacebookPlugin
-from collective.beaker.interfaces import ISession
 from copy import copy
+from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.interface import implements
 from zope.publisher.browser import BrowserView
+from zope.component.hooks import getSite
 
 from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
 from Products.PluggableAuthService.interfaces.plugins import (
@@ -26,12 +27,12 @@ logger = logging.getLogger('cs.auth.facebook')
 class SessionKeys:
     """Constants used to look up session keys
     """
-    userId      =   "cs.auth.facebook.userId"
-    userName    =   "cs.auth.facebook.userName"
-    fullname    =   "cs.auth.facebook.fullname"
-    accessToken =   "cs.auth.facebook.accessToken"
-    email       =   "cs.auth.facebook.email"
-    location    =   "cs.auth.facebook.location"
+    userId = "cs.auth.facebook.userId"
+    userName = "cs.auth.facebook.userName"
+    fullname = "cs.auth.facebook.fullname"
+    accessToken = "cs.auth.facebook.accessToken"
+    email = "cs.auth.facebook.email"
+    location = "cs.auth.facebook.location"
     profile_image = "cs.auth.facebook.profile_image"
 
 
@@ -58,9 +59,8 @@ class AddForm(BrowserView):
 class CSFacebookUsers(BasePlugin):
     """PAS plugin for authentication against facebook.
 
-    Here, we implement a number of PAS interfaces, using a session managed
-    by Beaker (via collective.beaker) to temporarily store the values we
-    have captured.
+    Here, we implement a number of PAS interfaces, using session_data_manager
+    to temporarily store the values we have captured.
     """
 
     # List PAS interfaces we implement here
@@ -93,24 +93,22 @@ class CSFacebookUsers(BasePlugin):
           appropriate credentials.
         """
 
-        # Get the session from Beaker.
-
-        session = ISession(request, None)
+        # Get the session from session_data_manager
+        sdm = getToolByName(getSite(), "session_data_manager")
+        session = sdm.getSessionData(create=False)
 
         if session is None:
             return None
 
         # We have been authenticated and we have a session that has not yet
         # expired:
-
-        if SessionKeys.userId in session:
-
-            return {
-                    'src': self.getId(),
-                    'userid': session[SessionKeys.userId],
-                    'username': session[SessionKeys.userName],
-
-                }
+        if SessionKeys.userId in session.keys():
+            data = {
+                'src': self.getId(),
+                'userid': session[SessionKeys.userId],
+                'username': session[SessionKeys.userName],
+            }
+            return data
 
         return None
 
@@ -145,7 +143,6 @@ class CSFacebookUsers(BasePlugin):
 
         # We have a session, which was identified by extractCredentials above.
         # Trust that it extracted the correct user id and login name
-
         if (
             'userid' in credentials and
             'username' in credentials
@@ -163,11 +160,11 @@ class CSFacebookUsers(BasePlugin):
 
         Here, we simply destroy their session.
         """
-        session = ISession(request, None)
+        sdm = getToolByName(getSite(), "session_data_manager")
+        session = sdm.getSessionData(create=False)
         if session is None:
             return
-
-        session.delete()
+        session.invalidate()
 
     #
     # IPropertiesPlugin
@@ -250,7 +247,7 @@ class CSFacebookUsers(BasePlugin):
                     return ({'id': name,
                            'login': data.get('username'),
                            'title': data.get('username'),
-                           'pluginid': self.getId()}, )
+                           'pluginid': self.getId()},)
                 else:
                     return ()
         criterias = copy(kw)

@@ -11,25 +11,25 @@ A PAS plugin to login into a Plone Site using Facebook.
 
 
 Installation and getting started
------------------------------------
+--------------------------------
 
-Add `cs.auth.facebook` to your buildout.cfg's eggs list. It will install all required dependencies.
+Add `cs.auth.facebook` to your ``buildout.cfg`` eggs list::
 
-You have to add a configuration similar to this to the `[instance]`
-section of your buildout file::
+    [buildout]
+    ...
+    eggs =
+        cs.auth.facebook
+        
+Or as an required install dependency of your own addon ``setup.py``::
 
+    install_requires=[
+        ...
+        'cs.auth.facebook',
+    ],
 
- zope-conf-additional =
-    <product-config beaker>
-        session type     file
-        session.data_dir ${buildout:directory}/var/sessions/data
-        session.lock_dir ${buildout:directory}/var/sessions/lock
-        session.key      beaker.session
-        session.secret   this-is-my-secret-${buildout:directory}
-    </product-config>
-
-This is needed because we are using collective.beaker to handle Facebook login
-session information.
+    
+        
+It will install all required dependencies.
 
 Install the product in the Plone Control Panel. This will create a "Login with
 Facebook" action into the personal tools toolbar in Plone.
@@ -37,9 +37,8 @@ Facebook" action into the personal tools toolbar in Plone.
 Create a new Facebook app at https://developers.facebook.com/app and fill in the
 required data in the plugin's control panel form.
 
-
 Credit
---------
+------
 
 This product re-distributes a lot of code written by Martin Aspeli
 (aka @optilude) in his book "Professional Plone 4 Development" and
@@ -50,6 +49,6 @@ the name 'optilux.facebookauth':
 
 
 Compatibility
-==============
+=============
 
 Plone 4.x
