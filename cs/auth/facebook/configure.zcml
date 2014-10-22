@@ -58,7 +58,14 @@
         class=".controlpanel.FacebookloginControlPanelView"
     />
 
+    <browser:viewlet
+        name="cs.auth.facebook.login"
+        manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+        class=".browser.LoginViewlet"
+        permission="zope2.View"
+        layer=".interfaces.IFacebookLoginLayer"
+        />
+        
   <!-- -*- extra stuff goes here -*- -->
-
 
 </configure>

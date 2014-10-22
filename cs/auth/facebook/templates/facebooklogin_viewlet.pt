@@ -1,0 +1,51 @@
+<div id="facebook-login">
+     
+    <script type="text/javascript" tal:content="string:
+        var fb_app_id = '${view/fb_app_ip}';"></script>
+    <script type="text/javascript">
+      function statusChangeCallback(response) {
+        console.log(response);
+        if (response.status === 'connected' && window.location.href.indexOf('logged_out') == -1) {
+          // Logged into your app and Facebook.
+          window.location.href = portal_url + '/@@facebook-login?accessToken=' + response.authResponse.accessToken;
+        } else if (response.status === 'not_authorized') {
+          // The person is logged into Facebook, but not your app.
+        } else {
+          // The person is not logged into Facebook, so we're not sure if
+          // they are logged into this app or not.
+        }
+      }
+    
+      // This function is called when someone finishes with the Login
+      // Button.  See the onlogin handler attached to it in the sample
+      // code below.
+      function checkLoginState() {
+        FB.getLoginStatus(function(response) {
+          statusChangeCallback(response);
+        });
+      }
+    
+      window.fbAsyncInit = function() {
+          FB.init({
+            appId      : fb_app_id,
+            cookie     : true,  // enable cookies to allow the server to access 
+                                // the session
+            xfbml      : true,  // parse social plugins on this page
+            version    : 'v2.1' // use version 2.1
+          });
+      };
+    
+      // Load the SDK asynchronously
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    
+    </script>
+        
+    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+    </fb:login-button>
+</div>

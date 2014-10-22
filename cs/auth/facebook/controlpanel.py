@@ -1,10 +1,12 @@
+from cs.auth.facebook import FBMessageFactory as _
+from plone.app.registry.browser.controlpanel import (
+    ControlPanelFormWrapper, 
+    RegistryEditForm,
+)
+from plone.z3cform import layout
 from zope import schema
 from zope.interface import Interface
-from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
-from plone.app.registry.browser.controlpanel import RegistryEditForm
-from plone.z3cform import layout
 
-from cs.auth.facebook import FBMessageFactory as _
 
 class IFacebookloginSettings(Interface):
     fb_app_id = schema.TextLine(title=_(u'App ID/API Key'),
