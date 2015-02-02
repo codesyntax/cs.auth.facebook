@@ -2,10 +2,17 @@ Changelog
 =========
 
 1.1 (UNRELEASED)
--------------------------
+----------------
+
+- Facebook Login with JavaScript SDK v2.1
+  [petschki]
+- add Facebook Login Viewlet
+  [petschki]
+- disable old style portal_action by default. code is still there (see documentation)
+  [petschki]
 
 1.1b1 (2014-10-22)
----------------------
+------------------
 
 - Remove dependency on collective.beaker. Optional Beaker support is available
   with https://pypi.python.org/pypi/Products.BeakerSessionDataManager
