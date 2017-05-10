@@ -10,6 +10,8 @@ Changelog
   [petschki]
 - disable old style portal_action by default. code is still there (see documentation)
   [petschki]
+- Fix access_token processing
+- Remove Welcome message
 
 1.1b1 (2014-10-22)
 ------------------

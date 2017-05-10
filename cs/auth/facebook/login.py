@@ -85,12 +85,13 @@ class FacebookLogin(BrowserView):
         args["client_secret"] = FB_APP_SECRET
         args["code"] = verificationCode
 
-        response = urlparse.parse_qs(urllib.urlopen(
-            "%s?%s" % (FACEBOOK_ACCESS_TOKEN_URL, urllib.urlencode(args),)
-        ).read())
+        response = json.loads(urllib.urlopen(
+                "%s?%s" % (FACEBOOK_ACCESS_TOKEN_URL, urllib.urlencode(args),)
+            ).read())
 
         # Load the profile using the access token we just received
-        accessToken = response["access_token"][-1]
+        accessToken = str(response["access_token"])
+
 
         profile = json.load(urllib.urlopen(
             "%s?%s" % (FACEBOOK_PROFILE_URL, urllib.urlencode({'access_token': accessToken}),)
@@ -137,8 +138,6 @@ class FacebookLogin(BrowserView):
                 user_data['portrait'] = session[SessionKeys.profile_image]
                 plugin._storage[session[SessionKeys.userId]] = user_data
 
-
-        IStatusMessage(self.request).add(_(u"Welcome. You are now logged in."), type="info")
 
         return_args = ''
         if self.request.get('came_from', None) is not None:
