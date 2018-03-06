@@ -29,6 +29,10 @@ setup(name='cs.auth.facebook',
       install_requires=[
           'setuptools',
       ],
+      extras_require={'test': [
+          'plone.app.testing [robot] >= 4.2.2',  # ROBOT_TEST_LEVEL added
+      ]},
+
       entry_points="""
       # -*- Entry points: -*-
 
