@@ -12,6 +12,9 @@ setup(name='cs.auth.facebook',
       # http://pypi.python.org/pypi?:action=list_classifiers
       classifiers=[
         "Framework :: Plone",
+        "Framework :: Plone :: 4.3",
+        "Framework :: Plone :: 5.0",
+        "Framework :: Plone :: 5.1",
         "Programming Language :: Python",
         ],
       keywords='plone pas login facebook authentication',
