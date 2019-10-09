@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.2 (unreleased)
+1.2 (2019-10-09)
 ----------------
 
 - Updated to Facebook API 4.0
