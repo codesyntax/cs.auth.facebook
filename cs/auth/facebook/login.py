@@ -93,7 +93,14 @@ class FacebookLogin(BrowserView):
             ).read())
 
         # Load the profile using the access token we just received
-        accessToken = str(response["access_token"])
+        if "access_token" in response:
+            accessToken = str(response["access_token"])
+        else:
+            # AccessToken seems to be wrong
+            log.error('Did not get access_token from facebook. Please check that App-Secret-Key is correct!')
+            IStatusMessage(self.request).add(_(u"Facebook authentication denied"), type="error")
+            self.request.response.redirect(self.context.absolute_url())
+            return u""
 
         fields = 'id,name,short_name,email'
         profile = json.load(urllib.urlopen(
