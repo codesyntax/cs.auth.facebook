@@ -1,26 +1,29 @@
+# -*- coding: utf-8 -*-
 import hashlib
 import json
-from logging import getLogger
 import urllib
-import urlparse
+from logging import getLogger
 
-from Products.CMFCore.utils import getToolByName
-from Products.PluggableAuthService.interfaces.plugins import IExtractionPlugin
-from Products.statusmessages.interfaces import IStatusMessage
 from cs.auth.facebook import FBMessageFactory as _
 from cs.auth.facebook.interfaces import ICSFacebookPlugin
 from cs.auth.facebook.plugin import SessionKeys
 from plone.registry.interfaces import IRegistry
+from Products.CMFCore.utils import getToolByName
+from Products.PluggableAuthService.interfaces.plugins import IExtractionPlugin
+from Products.statusmessages.interfaces import IStatusMessage
 from zope.component import getUtility
 from zope.publisher.browser import BrowserView
 
-
-FACEBOOK_AUTH_URL = "https://graph.facebook.com/oauth/authorize"
-FACEBOOK_ACCESS_TOKEN_URL = "https://graph.facebook.com/oauth/access_token"
+FACEBOOK_AUTH_URL = "https://www.facebook.com/v4.0/dialog/oauth"
+FACEBOOK_ACCESS_TOKEN_URL = "https://graph.facebook.com/v4.0/oauth/access_token"
 FACEBOOK_PROFILE_URL = "https://graph.facebook.com/me"
 FACEBOOK_PROFILE_PICTURE_URL = "https://graph.facebook.com/me/picture"
 FB_AUTHENTICATION_SALT_KEY = 'cs.auth.facebook.AUTHENTICATION_SALT_KEY'
-PERMISSIONS = 'email'
+PERMISSIONS = [
+    'public_profile', #includes:id,first_name,last_name,middle_name,name, name_format,picture,short_name
+    'email',
+]
+
 
 log = getLogger('cs.auth.facebook')
 
@@ -49,11 +52,11 @@ class FacebookLogin(BrowserView):
         sdm = getToolByName(self.context, "session_data_manager")
         session = sdm.getSessionData(create=True)
         session[FB_AUTHENTICATION_SALT_KEY] = salt
-        args = {
-            'state': salt,
-            'scope': PERMISSIONS,
-            'client_id': FB_APP_ID,
-            'redirect_uri': "%s/%s" % (self.context.absolute_url(), self.__name__,),
+        permission_string = ','.join(PERMISSIONS)
+        args = {'state': salt,
+                'scope': permission_string,
+                'client_id': FB_APP_ID,
+                'redirect_uri': "%s/%s" % (self.context.absolute_url(), self.__name__,),
         }
         
         # Did we get an error back after a Facebook redirect?
@@ -92,20 +95,27 @@ class FacebookLogin(BrowserView):
         # Load the profile using the access token we just received
         accessToken = str(response["access_token"])
 
-
+        fields = 'id,name,short_name,email'
         profile = json.load(urllib.urlopen(
-            "%s?%s" % (FACEBOOK_PROFILE_URL, urllib.urlencode({'access_token': accessToken}),)
+            "%s?fields=%s&%s" % (FACEBOOK_PROFILE_URL, fields, urllib.urlencode({'access_token': accessToken}))
         ))
 
         userId = profile.get('id').encode("utf-8")
         name = profile.get('name').encode("utf-8")
         email = profile.get('email', '').encode("utf-8")
-        username = profile.get('username', '').encode("utf-8")
-        location = profile.get('location', {}).get('name', '').encode("utf-8")
+        username = profile.get('short_name', '').encode("utf-8")
 
         profile_image = urllib.urlopen(
             "%s?%s" % (FACEBOOK_PROFILE_PICTURE_URL, urllib.urlencode({'access_token': accessToken}),)
         ).read()
+
+        profile_picture_data = urllib.urlopen(
+            "%s?type=large&redirect=false&%s" % (FACEBOOK_PROFILE_PICTURE_URL, urllib.urlencode({'access_token': accessToken}))  # noqa :501
+        ).read()
+
+        if profile_picture_data:
+            profile_image_data = json.loads(profile_picture_data)['data']
+            profile_image_url = profile_image_data.get('url', '')
 
         if not userId or not name:
             IStatusMessage(self.request).add(_(u"Insufficient information in Facebook profile"), type="error")
@@ -117,11 +127,11 @@ class FacebookLogin(BrowserView):
         # authenticate the user to Plone
         session[SessionKeys.accessToken] = accessToken
         session[SessionKeys.userId] = userId
-        session[SessionKeys.userName] = username or userId
+        session[SessionKeys.userName] = username + userId
         session[SessionKeys.fullname] = name
         session[SessionKeys.email] = email
-        session[SessionKeys.location] = location
         session[SessionKeys.profile_image] = profile_image
+        session[SessionKeys.profile_image_url] = profile_image_url
 
         # Add user data into our plugin storage:
         acl = self.context.acl_users
@@ -134,10 +144,9 @@ class FacebookLogin(BrowserView):
                 user_data['username'] = session[SessionKeys.userName]
                 user_data['fullname'] = session[SessionKeys.fullname]
                 user_data['email'] = session[SessionKeys.email]
-                user_data['location'] = session[SessionKeys.location]
                 user_data['portrait'] = session[SessionKeys.profile_image]
+                user_data['portrait_url'] = session[SessionKeys.profile_image_url]  # noqa :501
                 plugin._storage[session[SessionKeys.userId]] = user_data
-
 
         return_args = ''
         if self.request.get('came_from', None) is not None:

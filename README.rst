@@ -62,10 +62,10 @@ Installation and getting started
 Behind the scenes
 -----------------
 
-The Facebook Login Viewlet uses the new Facebook JavaScript SDK v2.1 to ensure
+The Facebook Login Viewlet uses the new Facebook JavaScript SDK v4.0 to ensure
 the proper popup for every target device. You don't have to care about this.
 
-For more information on FB JSDK checkout the `Facebook Developers Login Documentation <https://developers.facebook.com/docs/facebook-login/login-flow-for-web/v2.1>`_
+For more information on FB JSDK checkout the `Facebook Developers Login Documentation <https://developers.facebook.com/docs/facebook-login/login-flow-for-web/v4.0>`_
 
 
 Credit
@@ -83,3 +83,4 @@ Compatibility
 =============
 
 Plone 4.x
+Plone 5.x

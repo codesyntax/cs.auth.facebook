@@ -1,9 +1,0 @@
-recursive-include cs *.po
-recursive-include cs *.pot
-recursive-include cs *.pt
-recursive-include cs *.sh
-recursive-include cs *.txt
-recursive-include cs *.xml
-recursive-include cs *.zcml
-recursive-include docs *.GPL
-recursive-include docs *.txt

@@ -10,11 +10,9 @@
           window.location.href = portal_url + '/@@facebook-login?accessToken=' + response.authResponse.accessToken;
         } else if (response.status === 'not_authorized') {
           // The person is logged into Facebook, but not your app.
-          // TODO
         } else {
           // The person is not logged into Facebook, so we're not sure if
           // they are logged into this app or not.
-          // TODO
         }
       }
     
@@ -30,10 +28,9 @@
       window.fbAsyncInit = function() {
           FB.init({
             appId      : fb_app_id,
-            cookie     : true,  // enable cookies to allow the server to access 
-                                // the session
+            cookie     : true,  // enable cookies to allow the server to access the session
             xfbml      : true,  // parse social plugins on this page
-            version    : 'v2.1' // use version 2.1
+            version    : 'v4.0' // use version 4.0
           });
       };
     
@@ -42,7 +39,7 @@
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) return;
         js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_US/sdk.js";
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
         fjs.parentNode.insertBefore(js, fjs);
       }(document, 'script', 'facebook-jssdk'));
     
