@@ -29,13 +29,14 @@ Installation and getting started
         'cs.auth.facebook',
     ], 
 
-2. Create a new Facebook app at https://developers.facebook.com/app and fill 
-   in the required data in the plugin's control panel form.
+2. Create a new Facebook app at https://developers.facebook.com/apps and fill 
+   in the required data in the plugin's control panel form. 
+   Make sure to enter the URL of the Website that is using the Facebook Login in App -> Facebook-Login -> Settings -> Valid OAuth Redirect URLs. If you want to run it from your local machine, you have to provide ``http://localhost:8080`` and disable SSL-Enforcement.
 
 3. Install the product in the Plone Control Panel and provide the app_id 
    and app_secret in the configuration panel.
 
-   Now you see the "Facebook Login" button viewlet. To customize the placement of this
+   In Plone 4 you now see the "Facebook Login" button viewlet. To customize the placement of this
    viewlet please check out the `Plone Viewlet Documentation <http://goo.gl/RyUORn>`_ 
 
 4. Alternatively you can enable an action in portal_actions with the following configuration
@@ -57,6 +58,8 @@ Installation and getting started
             </object>
         </object>
     </object>
+    
+5. A second alternative is to link to the view ``${globals_view/navigationRootUrl}/@@facebook-login`` where ever you want to start the facebook login.
 
 
 Behind the scenes
@@ -83,4 +86,5 @@ Compatibility
 =============
 
 Plone 4.x
+
 Plone 5.x
