@@ -34,6 +34,7 @@ class SessionKeys:
     email = "cs.auth.facebook.email"
     location = "cs.auth.facebook.location"
     profile_image = "cs.auth.facebook.profile_image"
+    profile_image_url = "cs.auth.facebook.profile_image_url"
 
 
 class AddForm(BrowserView):

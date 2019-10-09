@@ -4,8 +4,8 @@ Changelog
 1.2 (unreleased)
 ----------------
 
-- Nothing changed yet.
-
+- Updated to Facebook API 4.0
+  [sarn0ld]
 
 1.1 (2017-05-10)
 ----------------
